@@ -11,9 +11,31 @@ class BasicIntQueue extends IntQueue {
   def put(x: Int) { buf += x }
 }
 
-val queue  = new BasicIntQueue
-queue.put(10)
-queue.put(20)
+trait Doubling extends IntQueue {
+  abstract override def put(x: Int) { super.put(2 * x) }
+}
 
-println(queue.get)
-println(queue.get)
+// val queue  = new BasicIntQueue with Doubling
+// queue.put(10)
+// queue.put(20)
+
+// println(queue.get)
+// println(queue.get)
+
+trait Incrementing extends IntQueue {
+  abstract override def put(x: Int) { super.put(x + 1) }
+}
+
+trait Filtering extends IntQueue {
+  abstract override def put(x: Int) {
+    if ( x >= 0 ) super.put(x)
+  }
+}
+
+val queue2 = new BasicIntQueue with Filtering with Incrementing
+queue2.put(-1)
+queue2.put(0)
+queue2.put(1)
+
+println(queue2.get)
+println(queue2.get)
